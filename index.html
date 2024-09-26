@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Viabilidade de Empreendimentos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container my-5">
+        <div class="text-center mb-4">
+            <img src="logo.png" alt="Logo da empresa" class="img-fluid logo">
+        </div>
+        
+        <h1 class="text-center mb-4">Calculadora de Viabilidade de Empreendimentos</h1>
+        <form id="calculadoraForm">
+            <div class="mb-3">
+                <label for="tipoEmpreendimento" class="form-label">Tipo de Empreendimento</label>
+                <select class="form-select" id="tipoEmpreendimento">
+                    <option value="">Selecione o tipo</option>
+                    <option value="loteamento">Loteamento</option>
+                    <option value="construcao">Construção de Casas</option>
+                </select>
+            </div>
+            
+            <div id="camposLoteamento" style="display: none;">
+                <div class="mb-3">
+                    <label for="quantidadeLotes" class="form-label">Quantidade de lotes</label>
+                    <input type="number" class="form-control" id="quantidadeLotes">
+                </div>
+                <div class="mb-3">
+                    <label for="precoMedioVendaLote" class="form-label">Preço Médio de Venda (R$)</label>
+                    <input type="number" class="form-control" id="precoMedioVendaLote" step="0.01">
+                </div>
+                <div class="mb-3">
+                    <label for="custoMetroQuadradoLote" class="form-label">Custo por m² do lote (R$)</label>
+                    <input type="number" class="form-control" id="custoMetroQuadradoLote" step="0.01">
+                </div>
+                <div class="mb-3">
+                    <label for="tamanhoLote" class="form-label">Tamanho do lote (m²)</label>
+                    <input type="number" class="form-control" id="tamanhoLote" step="0.01">
+                </div>
+                <div class="mb-3">
+                    <label for="temParceiroLote" class="form-label">Tem parceiro?</label>
+                    <select class="form-select" id="temParceiroLote">
+                        <option value="nao">Não</option>
+                        <option value="sim">Sim</option>
+                    </select>
+                </div>
+                <div class="mb-3" id="porcentagemParceiroLoteDiv" style="display: none;">
+                    <label for="porcentagemParceiroLote" class="form-label">Porcentagem do parceiro (%)</label>
+                    <input type="number" class="form-control" id="porcentagemParceiroLote" min="0" max="100" step="0.01">
+                </div>
+                <div class="mb-3" id="precoAreaTotalLoteDiv">
+                    <label for="precoAreaTotalLote" class="form-label">Preço da Área total (R$)</label>
+                    <input type="number" class="form-control" id="precoAreaTotalLote" step="0.01">
+                </div>
+            </div>
+            
+            <div id="camposConstrucao" style="display: none;">
+                <div class="mb-3">
+                    <label for="quantidadeCasas" class="form-label">Quantidade de casas</label>
+                    <input type="number" class="form-control" id="quantidadeCasas">
+                </div>
+                <div class="mb-3">
+                    <label for="precoMedioVendaCasa" class="form-label">Preço Médio de Venda (R$)</label>
+                    <input type="number" class="form-control" id="precoMedioVendaCasa" step="0.01">
+                </div>
+                <div class="mb-3">
+                    <label for="custoMetroQuadradoCasa" class="form-label">Custo por m² da casa (R$)</label>
+                    <input type="number" class="form-control" id="custoMetroQuadradoCasa" step="0.01">
+                </div>
+                <div class="mb-3">
+                    <label for="metroQuadradoCasa" class="form-label">Metro² da casa</label>
+                    <input type="number" class="form-control" id="metroQuadradoCasa" step="0.01">
+                </div>
+                <div class="mb-3">
+                    <label for="custoMetroQuadradoLoteCasa" class="form-label">Custo por m² do lote (R$)</label>
+                    <input type="number" class="form-control" id="custoMetroQuadradoLoteCasa" step="0.01">
+                </div>
+                <div class="mb-3">
+                    <label for="tamanhoLoteCasa" class="form-label">Tamanho do lote (m²)</label>
+                    <input type="number" class="form-control" id="tamanhoLoteCasa" step="0.01">
+                </div>
+                <div class="mb-3">
+                    <label for="temParceiroCasa" class="form-label">Tem parceiro?</label>
+                    <select class="form-select" id="temParceiroCasa">
+                        <option value="nao">Não</option>
+                        <option value="sim">Sim</option>
+                    </select>
+                </div>
+                <div class="mb-3" id="porcentagemParceiroCasaDiv" style="display: none;">
+                    <label for="porcentagemParceiroCasa" class="form-label">Porcentagem do parceiro (%)</label>
+                    <input type="number" class="form-control" id="porcentagemParceiroCasa" min="0" max="100" step="0.01">
+                </div>
+                <div class="mb-3" id="precoAreaTotalCasaDiv">
+                    <label for="precoAreaTotalCasa" class="form-label">Preço da Área total (R$)</label>
+                    <input type="number" class="form-control" id="precoAreaTotalCasa" step="0.01">
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Calcular</button>
+        </form>
+        
+        <div id="resultados" class="mt-5" style="display: none;">
+            <h2 class="mb-3">Resultados</h2>
+            <div id="resultadosConteudo"></div>
+            <canvas id="graficoResultados" width="300" height="300"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
