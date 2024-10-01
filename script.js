@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const porcentagemParceiroCasaDiv = document.getElementById('porcentagemParceiroCasaDiv');
     const precoAreaTotalCasaDiv = document.getElementById('precoAreaTotalCasaDiv');
 
+    let graficoAtual; // Variável global para armazenar a referência ao gráfico atual
+
     tipoEmpreendimento.addEventListener('change', function() {
         if (this.value === 'loteamento') {
             camposLoteamento.style.display = 'block';
@@ -262,6 +264,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Criar o gráfico de pizza
         criarGraficoPizza(dados);
+
+        // Adicionar novo bloco de resultados para Payback e ROI
+        exibirResultadosPaybackROI(dados);
+    }
+
+    function exibirResultadosPaybackROI(dados) {
+        const blocoPaybackROI = document.createElement('div');
+        blocoPaybackROI.className = 'mt-5 p-3 bg-light border rounded';
+        blocoPaybackROI.innerHTML = `
+            <h3 class="mb-3">Análise Financeira do Empreendimento</h3>
+            <p><strong>Venda Inicial:</strong> Expectativa de venda de 90% das unidades no lançamento.</p>
+            <p><strong>Entrada Imediata:</strong> ${formatarMoeda(dados.vgvTotal * 0.9 * 0.2)} (20% de 90% do VGV)</p>
+            <p><strong>Valor Financiado:</strong> ${formatarMoeda(dados.vgvTotal * 0.9 * 0.8)} (80% de 90% do VGV)</p>
+            <p><strong>Investimento Inicial:</strong> ${formatarMoeda(dados.custoTotal)} (Área + Infraestrutura + Marketing + Impostos + Comissão)</p>
+            <p><strong>Lucro Estimado:</strong> ${formatarMoeda(dados.lucro)}</p>
+            <p><strong>ROI Estimado:</strong> ${((dados.lucro / dados.custoTotal) * 100).toFixed(2)}%</p>
+            <p><strong>Payback Estimado:</strong> ${calcularPaybackEstimado(dados)} meses</p>
+            <p><em>Nota: O Payback e ROI são estimativas baseadas na venda de 90% das unidades no lançamento e no financiamento do restante em até 180 meses.</em></p>
+        `;
+        resultadosConteudo.appendChild(blocoPaybackROI);
+    }
+
+    function calcularPaybackEstimado(dados) {
+        const entradaInicial = dados.vgvTotal * 0.9 * 0.2;
+        const valorFinanciado = dados.vgvTotal * 0.9 * 0.8;
+        const parcelaMensal = valorFinanciado / 180; // Simplificação, sem considerar juros
+        const fluxoCaixaMensal = parcelaMensal + (dados.vgvTotal * 0.1 / 180); // Inclui venda dos 10% restantes
+
+        let mesesPayback = 0;
+        let saldoAcumulado = -dados.custoTotal + entradaInicial;
+
+        while (saldoAcumulado < 0 && mesesPayback < 180) {
+            saldoAcumulado += fluxoCaixaMensal;
+            mesesPayback++;
+        }
+
+        return mesesPayback;
     }
 
     function formatarChave(chave) {
@@ -277,24 +316,18 @@ document.addEventListener('DOMContentLoaded', function() {
     function criarGraficoPizza(dados) {
         const ctx = document.getElementById('graficoResultados').getContext('2d');
         
-        // Selecionar apenas os itens desejados
-        const itensSelecionados = {
-            'Infraestrutura': dados.infraestrutura,
-            'Marketing': dados.marketing,
-            'Imposto Empresa': dados.impostoEmpresa,
-            'Comissão Empresa': dados.comissaoEmpresa,
-            'Lucro': dados.lucro
-        };
+        // Verifica se já existe um gráfico e o destrói
+        if (graficoAtual) {
+            graficoAtual.destroy();
+        }
         
-        const labels = Object.keys(itensSelecionados);
-        const valores = Object.values(itensSelecionados);
-
-        new Chart(ctx, {
+        // Cria o novo gráfico
+        graficoAtual = new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: labels,
+                labels: Object.keys(dados),
                 datasets: [{
-                    data: valores,
+                    data: Object.values(dados),
                     backgroundColor: [
                         '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'
                     ]
@@ -302,14 +335,13 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        position: 'right',
+                        position: 'top',
                     },
                     title: {
                         display: true,
-                        text: 'Distribuição dos Custos e Lucro'
+                        text: 'Distribuição dos Custos'
                     }
                 }
             }
