@@ -199,7 +199,28 @@
                     calcularEExibirResultados();
                 }
             });
+
+            $('#temParceiro').on('change', function() {
+                const porcentagemParceriaField = $('#porcentagemParceriaField');
+                const precoAreaField = $('#precoAreaField');
+
+                if (this.value === 'sim') {
+                    porcentagemParceriaField.removeClass('hidden');
+                    precoAreaField.addClass('hidden');
+                    limparPrecoArea();
+                } else if (this.value === 'nao') {
+                    precoAreaField.removeClass('hidden');
+                    porcentagemParceriaField.addClass('hidden');
+                } else {
+                    porcentagemParceriaField.addClass('hidden');
+                    precoAreaField.addClass('hidden');
+                }
+            });
         });
+
+        function limparPrecoArea() {
+            $('#precoArea').val('');
+        }
 
         function validarFormulario() {
             // Implemente a validação dos campos aqui
@@ -227,7 +248,7 @@
             const custoMetroQuadradoLote = parseFloat($('#custoMetroQuadradoLote').val().replace(/\./g, '').replace(',', '.'));
             const metragemLote = parseFloat($('#metragemLote').val());
             const valorAreaInput = $('#precoArea').val().replace(/\./g, '').replace(',', '.');
-            const valorArea = valorAreaInput ? parseFloat(valorAreaInput) : 0;
+            const valorArea = $('#temParceiro').val() === 'nao' && valorAreaInput ? parseFloat(valorAreaInput) : 0;
             
 
             const vgv = quantidadeLotes * precoMedioVenda;
@@ -270,7 +291,7 @@
             const custoMetroQuadradoLote = parseFloat($('#custoMetroQuadradoLoteConstrucao').val().replace(/\./g, '').replace(',', '.'));
             const metragemLote = parseFloat($('#metragemLoteConstrucao').val());
             const valorAreaInput = $('#precoArea').val().replace(/\./g, '').replace(',', '.');
-            const valorArea = valorAreaInput ? parseFloat(valorAreaInput) : 0;
+            const valorArea = $('#temParceiro').val() === 'nao' && valorAreaInput ? parseFloat(valorAreaInput) : 0;
 
             const vgv = quantidadeCasas * precoMedioVenda;
             const custoCasa = custoMetroQuadradoCasa * metragemCasa;
