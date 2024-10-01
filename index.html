@@ -226,7 +226,9 @@
             const precoMedioVenda = parseFloat($('#precoMedioVendaLote').val().replace(/\./g, '').replace(',', '.'));
             const custoMetroQuadradoLote = parseFloat($('#custoMetroQuadradoLote').val().replace(/\./g, '').replace(',', '.'));
             const metragemLote = parseFloat($('#metragemLote').val());
-            const valorArea = parseFloat($('#precoArea').val().replace(/\./g, '').replace(',', '.'));
+            const valorAreaInput = $('#precoArea').val().replace(/\./g, '').replace(',', '.');
+            const valorArea = valorAreaInput ? parseFloat(valorAreaInput) : 0;
+            
 
             const vgv = quantidadeLotes * precoMedioVenda;
             const custoLote = custoMetroQuadradoLote * metragemLote;
@@ -267,7 +269,8 @@
             const metragemCasa = parseFloat($('#metragemCasa').val());
             const custoMetroQuadradoLote = parseFloat($('#custoMetroQuadradoLoteConstrucao').val().replace(/\./g, '').replace(',', '.'));
             const metragemLote = parseFloat($('#metragemLoteConstrucao').val());
-            const valorArea = parseFloat($('#precoArea').val().replace(/\./g, '').replace(',', '.'));
+            const valorAreaInput = $('#precoArea').val().replace(/\./g, '').replace(',', '.');
+            const valorArea = valorAreaInput ? parseFloat(valorAreaInput) : 0;
 
             const vgv = quantidadeCasas * precoMedioVenda;
             const custoCasa = custoMetroQuadradoCasa * metragemCasa;
