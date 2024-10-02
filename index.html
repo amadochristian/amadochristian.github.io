@@ -7,26 +7,87 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        body {
+            background-color: #0b0b0d;
+            font-family: 'lato', sans-serif;
+            color: #ffffff;
+        }
+        .form-container {
+            background-color: #1b1b1d;
+            border-radius: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
         .hidden {
             display: none;
         }
+        .logo {
+            max-width: 200px;
+            height: auto;
+        }
+        .form-control, .form-select {
+            max-width: 200px;
+            margin: 0 auto;
+        }
+        .form-label {
+            margin-bottom: 0.5rem;
+        }
+        h5 {
+            color: #ffffff;
+            font-weight: 400;
+        }
+        h6 {
+            color: #8e8e8e;
+            font-weight: 400;
+        }
+        .btn-calcular {
+            background-image: linear-gradient(to right, #f95588, #f4679a);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-calcular:hover {
+            background-image: linear-gradient(to right, #27ae60, #2ecc71);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-calcular:active {
+            transform: translateY(1px);
+        }
+
+        .resultadosTabela{
+            border-radius: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
     </style>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- jQuery Mask Plugin -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/plentz/jquery-maskmoney@master/dist/jquery.maskMoney.min.js"></script>
+
 </head>
 <body>
     <div class="container mt-5">
         <div class="text-center mb-4">
-            <img src="logo.png" alt="Logo da empresa" class="logo" height="50">
+            <img src="logo.png" alt="Logo da empresa" class="logo">
         </div>
-        <h1 class="mb-4 fw-bold">Viabilidade de Empreendimento</h1>
-        <form id="empreendimentoForm">
+        
+        <h5 class="mb-1 text-center">Viabilidade de Empreendimento</h5>
+        <h6 class="mb-4 text-center">Preencha os campos abaixo para calcular</h6>
+
+        
+        <form id="empreendimentoForm" class="text-center form-container">
             <div class="mb-3">
-                <label for="tipoEmpreendimento" class="form-label fw-bold">Tipo de empreendimento:</label>
-                <select id="tipoEmpreendimento" name="tipoEmpreendimento" class="form-select" required>
-                    <option value="">Selecione</option>
+                <select id="tipoEmpreendimento" name="tipoEmpreendimento" class="form-control-sm" required>
+                    <option selected>Tipo de Empreendimento</option>
                     <option value="loteamento">Loteamento</option>
                     <option value="construcao">Construção</option>
                 </select>
@@ -36,19 +97,19 @@
                 <h2 class="mt-4 mb-3 fw-bold">Loteamento</h2>
                 <div class="mb-3">
                     <label for="quantidadeLotes" class="form-label">Quantidade de Lotes:</label>
-                    <input type="number" id="quantidadeLotes" name="quantidadeLotes" class="form-control" min="1">
+                    <input type="number" id="quantidadeLotes" name="quantidadeLotes" class="form-control mx-auto" min="1">
                 </div>
                 <div class="mb-3">
-                    <label for="precoMedioVendaLote" class="form-label fw-bold">Preço Médio de Venda:</label>
-                    <input type="text" id="precoMedioVendaLote" name="precoMedioVendaLote" class="form-control money">
+                    <label for="precoMedioVendaLote" class="form-label">Preço Médio de Venda:</label>
+                    <input type="text" id="precoMedioVendaLote" name="precoMedioVendaLote" class="form-control mx-auto money">
                 </div>
                 <div class="mb-3">
                     <label for="custoMetroQuadradoLote" class="form-label">Custo por metro² do lote:</label>
-                    <input type="text" id="custoMetroQuadradoLote" name="custoMetroQuadradoLote" class="form-control money">
+                    <input type="text" id="custoMetroQuadradoLote" name="custoMetroQuadradoLote" class="form-control mx-auto money">
                 </div>
                 <div class="mb-3">
                     <label for="metragemLote" class="form-label">Metragem do lote:</label>
-                    <input type="number" id="metragemLote" name="metragemLote" class="form-control" min="0" step="0.01">
+                    <input type="number" id="metragemLote" name="metragemLote" class="form-control mx-auto" min="0" step="0.01">
                 </div>
             </div>
 
@@ -59,7 +120,7 @@
                     <input type="number" id="quantidadeCasas" name="quantidadeCasas" class="form-control" min="1">
                 </div>
                 <div class="mb-3">
-                    <label for="precoMedioVendaCasa" class="form-label fw-bold">Preço Médio de venda:</label>
+                    <label for="precoMedioVendaCasa" class="form-label">Preço Médio de venda:</label>
                     <input type="text" id="precoMedioVendaCasa" name="precoMedioVendaCasa" class="form-control money">
                 </div>
                 <div class="mb-3">
@@ -80,34 +141,35 @@
                 </div>
             </div>
 
-            <div id="parceiroFields">
-                <div class="mb-3">
-                    <label for="temParceiro" class="form-label fw-bold">Tem parceiro?:</label>
-                    <select id="temParceiro" name="temParceiro" class="form-select" required>
-                        <option value="">Selecione</option>
+            <div id="parceiroFields" class="mb-1">
+                <div class="mb-1">
+                    <label for="temParceiro" class="form-label"></label>
+                    <select id="temParceiro" name="temParceiro" class="form-control-sm" required>
+                        <option value="">Tem Parceiro?</option>
                         <option value="sim">Sim</option>
                         <option value="nao">Não</option>
                     </select>
                 </div>
 
                 <div id="porcentagemParceriaField" class="mb-3 hidden">
-                    <label for="porcentagemParceria" class="form-label fw-bold">Porcentagem da parceria:</label>
-                    <input type="number" id="porcentagemParceria" name="porcentagemParceria" class="form-control" min="0" max="100" step="0.01">
+                    <label for="porcentagemParceria" class="form-label">Porcentagem da parceria:</label>
+                    <input type="number" id="porcentagemParceria" name="porcentagemParceria" class="form-control mx-auto" min="0" max="100" step="0.01">
                 </div>
 
                 <div id="precoAreaField" class="mb-3 hidden">
-                    <label for="precoArea" class="form-label fw-bold">Preço da área:</label>
-                    <input type="text" id="precoArea" name="precoArea" class="form-control money">
+                    <label for="precoArea" class="form-label">Preço da área:</label>
+                    <input type="text" id="precoArea" name="precoArea" class="form-control mx-auto money">
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-3 fw-bold">Enviar</button>
-        </form>
+            <button type="submit" class="btn btn-primary mt-3 btn-calcular">Calcular</button>
+        </div>
+    </form>
 
-        <div id="resultadosTabela" class="mt-5 hidden">
-            <h2 class="mb-3 fw-bold">Resultados</h2>
+        <div id="resultadosTabela" class="mt-5 hidden resultadosTabela">
+            <h2 class="mb-3 fw-bold" >Resultados</h2>
             <div class="table-responsive">
-                <table class="table table-striped table-hover">
+                <table class="table table-striped table-dark">
                     <thead>
                         <tr>
                             <th>Item</th>
@@ -153,25 +215,24 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 
     <script>
         document.getElementById('tipoEmpreendimento').addEventListener('change', function() {
             const loteamentoFields = document.getElementById('loteamentoFields');
             const construcaoFields = document.getElementById('construcaoFields');
 
-            if (this.value === 'loteamento') {
-                loteamentoFields.classList.remove('hidden');
-                construcaoFields.classList.add('hidden');
-            } else if (this.value === 'construcao') {
-                construcaoFields.classList.remove('hidden');
-                loteamentoFields.classList.add('hidden');
-            } else {
-                loteamentoFields.classList.add('hidden');
-                construcaoFields.classList.add('hidden');
-            }
-        });
+        if (this.value === 'loteamento') {
+            loteamentoFields.classList.remove('hidden');
+            construcaoFields.classList.add('hidden');
+        } else if (this.value === 'construcao') {
+            construcaoFields.classList.remove('hidden');
+            loteamentoFields.classList.add('hidden');
+        } else {
+            loteamentoFields.classList.add('hidden');
+            construcaoFields.classList.add('hidden');
+        }
+    });
 
         document.getElementById('temParceiro').addEventListener('change', function() {
             const porcentagemParceriaField = document.getElementById('porcentagemParceriaField');
@@ -191,7 +252,14 @@
 
         // Adicione este código para aplicar as máscaras monetárias
         $(document).ready(function() {
-            $('.money').mask('#.##0,00', {reverse: true});
+
+            $('.money').maskMoney({
+            prefix:'R$ ',
+            allowNegative: true,
+            thousands:'.', 
+            decimal:',',
+            affixesStay: true
+        });
 
             $('#empreendimentoForm').on('submit', function(e) {
                 e.preventDefault();
@@ -242,13 +310,16 @@
             exibirResultados(resultados);
         }
 
+        function getNumericValue(selector) {
+            return parseFloat($(selector).val().replace(/\./g, '').replace(',', '.').replace('R$ ', ''));
+        }
+
         function calcularLoteamento(porcentagemParceria) {
             const quantidadeLotes = parseInt($('#quantidadeLotes').val());
-            const precoMedioVenda = parseFloat($('#precoMedioVendaLote').val().replace(/\./g, '').replace(',', '.'));
-            const custoMetroQuadradoLote = parseFloat($('#custoMetroQuadradoLote').val().replace(/\./g, '').replace(',', '.'));
+            const precoMedioVenda = getNumericValue('#precoMedioVendaLote');
+            const custoMetroQuadradoLote = getNumericValue('#custoMetroQuadradoLote');
             const metragemLote = parseFloat($('#metragemLote').val());
-            const valorAreaInput = $('#precoArea').val().replace(/\./g, '').replace(',', '.');
-            const valorArea = $('#temParceiro').val() === 'nao' && valorAreaInput ? parseFloat(valorAreaInput) : 0;
+            const valorArea = $('#temParceiro').val() === 'nao' ? getNumericValue('#precoArea') : 0;
             
 
             const vgv = quantidadeLotes * precoMedioVenda;
@@ -285,13 +356,12 @@
 
         function calcularConstrucao(porcentagemParceria) {
             const quantidadeCasas = parseInt($('#quantidadeCasas').val());
-            const precoMedioVenda = parseFloat($('#precoMedioVendaCasa').val().replace(/\./g, '').replace(',', '.'));
-            const custoMetroQuadradoCasa = parseFloat($('#custoMetroQuadradoCasa').val().replace(/\./g, '').replace(',', '.'));
+            const precoMedioVenda = getNumericValue('#precoMedioVendaCasa');
+            const custoMetroQuadradoCasa = getNumericValue('#custoMetroQuadradoCasa');
             const metragemCasa = parseFloat($('#metragemCasa').val());
-            const custoMetroQuadradoLote = parseFloat($('#custoMetroQuadradoLoteConstrucao').val().replace(/\./g, '').replace(',', '.'));
+            const custoMetroQuadradoLote = getNumericValue('#custoMetroQuadradoLoteConstrucao');
             const metragemLote = parseFloat($('#metragemLoteConstrucao').val());
-            const valorAreaInput = $('#precoArea').val().replace(/\./g, '').replace(',', '.');
-            const valorArea = $('#temParceiro').val() === 'nao' && valorAreaInput ? parseFloat(valorAreaInput) : 0;
+            const valorArea = $('#temParceiro').val() === 'nao' ? getNumericValue('#precoArea') : 0;
 
             const vgv = quantidadeCasas * precoMedioVenda;
             const custoCasa = custoMetroQuadradoCasa * metragemCasa;
@@ -356,5 +426,6 @@
             $('#resultadosTabela').removeClass('hidden');
         }
     </script>
+
 </body>
 </html>
